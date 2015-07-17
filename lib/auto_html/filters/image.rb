@@ -1,16 +1,5 @@
-require 'redcarpet'
-
-class NoParagraphRenderer < ::Redcarpet::Render::XHTML
-  def paragraph(text)
-    text
-  end
-end
-
-AutoHtml.add_filter(:image).with({:alt => ''}) do |text, options|
-  r = Redcarpet::Markdown.new(NoParagraphRenderer)
-  alt = options[:alt]
-  options[:proxy] ||= ""
+AutoHtml.add_filter(:image) do |text|
   text.gsub(/(?<!src=")https?:\/\/.+?\.(jpg|jpeg|bmp|gif|png)(\?\S+)?/i) do |match|
-    r.render("![#{alt}](#{options[:proxy]}#{match})")
+    %{<img src="#{match}" class="img-responsive center-block web-img" />}
   end
 end

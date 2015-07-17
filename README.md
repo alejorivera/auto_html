@@ -1,6 +1,8 @@
-auto_html [![Build Status](https://secure.travis-ci.org/dejan/auto_html.png?branch=master)](http://travis-ci.org/dejan/auto_html)
-=========
+## About this Fork
 
+I've added bootstrap classes to make images, youtube and vimeo videos responsive.
+
+## About auto_html
 
 auto_html is a Rails extension for transforming URLs to appropriate resource (image, link, YouTube, Vimeo video,...). It's the perfect choice if you don't want to bother visitors with rich HTML editor or markup code, but you still want to allow them to embed video, images, links and more on your site, purely by pasting URL. Check out the [live demo](http://rors.org/demos/auto_html).
 
@@ -9,7 +11,7 @@ auto_html is a Rails extension for transforming URLs to appropriate resource (im
 
 Specify the gem in Gemfile of the project
 
-    gem "auto_html"
+    gem "auto_html", git: "https://github.com/alejorivera/auto_html"
 
 
 ## Example usage
@@ -17,11 +19,11 @@ Specify the gem in Gemfile of the project
 Transforming string with text and URLs is done with *auto_html* method:
 
     include AutoHtml
-    
+
     auto_html('Hey! Checkout out: http://vukajlija.com') { simple_format; link(:target => 'blank') }
     => "<p>Hey! Checkout out: <a href='http://vukajlija.com' target='blank'>http://vukajlija.com</a></p>"
 
-You'll probably have user input stored in model, so it's a good place to automate and even store this conversion for performance reason. This is done with *auto_html_for* method. Let's say you have model Comment with attribute body. Create another column in table Comments called body_html (again, this is optional but recommended for performance reasons). Now have something like this: 
+You'll probably have user input stored in model, so it's a good place to automate and even store this conversion for performance reason. This is done with *auto_html_for* method. Let's say you have model Comment with attribute body. Create another column in table Comments called body_html (again, this is optional but recommended for performance reasons). Now have something like this:
 
     class Comment < ActiveRecord::Base
       auto_html_for :body do
@@ -33,7 +35,7 @@ You'll probably have user input stored in model, so it's a good place to automat
       end
     end
 
-... and you'll have this behavior: 
+... and you'll have this behavior:
 
     Comment.create(:body => 'Hey check out this cool video: http://www.youtube.com/watch?v=WdsGihou8J4')  
     => #<Comment id: 123, body: '<p>Hey check out this cool video: <div class="video youtube"><iframe class="youtube-player" type="text/html" width="587" height="350" src="http://www.youtube.com/embed/WdsGihou8J4" frameborder="0"> <br /></iframe></div></p>'>
@@ -95,7 +97,7 @@ Where `[your model]` is the name of model which values you want to rebuild.
 If you want to run it on remote server, just add this to your `deploy.rb`:
 
     require 'auto_html/capistrano'
-    
+
 Now you can run `cap auto_html:rebuild CLASS=[your_model]`.
 
 
